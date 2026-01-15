@@ -55,7 +55,7 @@
 \begin{center}
     Електротехнички факултет 
     Универзитета у Београду --- Катедра за Електронику \\
-    \textbf{ИСПИТ ИЗ ОСНОВА ЕЛЕКТРОНИКЕ \\ Одсек за софтверско инжењерство}
+    \textbf{\naslovFormulara \\ Одсек за софтверско инжењерство}
 \end{center}
 }
 
@@ -68,14 +68,14 @@
 \doublebox{%
 \begin{minipage}[c]{\textwidth} \small
 \textbf{Напомене.} 
-Израда одабране опције траjе 180 минута. Није дозвољено
+Израда одабране опције траjе \ifthenelse{\boolean{ispit}}{180}{120} минута. Није дозвољено
 напуштање сале 60 минута од почетка израде задатака. Дозвољено jе читко
 писање
 графитном оловком. Дозвољена jе употреба овог формулара и једне испитне
 вежбанке. Дозвољена jе и употреба непрограмабилних
 калкулатора.
-Градиво jе подељено по колоквиjумима. Сваки колоквиjум састављен jе из два
-питања и jедног задатка. Бодовање питања и задатака означено jе
+\ifthenelse{\boolean{ispit}}{Градиво jе подељено по колоквиjумима. Сваки колоквиjум састављен jе из два
+питања и jедног задатка.}{} Бодовање питања и задатака означено jе
 угластим
 заградама иза одговараjуће ознаке тачке.
 Задатке решавати \textbf{искључиво} у вежбанци, полазећи од \textbf{прве} стране.
@@ -104,20 +104,22 @@
 \includegraphics[scale=1]{\tablicaPDF}
 \end{center}
 
-\ifthenelse{\boolean{opcijeZaPolaganje}}{
-    \noindent
-    \textbf{\myul{Обавезно} заокружити опцију за полагање испита:}
-    \hfill
-    (\textit{i}) Само К3
-    (\textit{ii}) К1 и К3
-    (\textit{iii}) К2 и К3
-    (\textit{iv}) K1, К2 и К3 \\[1mm]
-    \textbf{Одабрану опцију назначити \myul{и на корици вежбанке}.} \\
-}{
-    \begin{center}
-        ИНТЕГРАЛНИ ИСПИТ \\
-    \end{center}
-}
+\ifthenelse{\boolean{ispit}}{
+    \ifthenelse{\boolean{opcijeZaPolaganje}}{
+        \noindent
+        \textbf{\myul{Обавезно} заокружити опцију за полагање испита:}
+        \hfill
+        (\textit{i}) Само К3
+        (\textit{ii}) К1 и К3
+        (\textit{iii}) К2 и К3
+        (\textit{iv}) K1, К2 и К3 \\[1mm]
+        \textbf{Одабрану опцију назначити \myul{и на корици вежбанке}.} \\
+    }{
+        \begin{center}
+            ИНТЕГРАЛНИ ИСПИТ \\
+        \end{center}
+    }
+}{}
 \noindent
 
 
@@ -126,7 +128,7 @@
     \noindent
     \textbf{Задатак}. \\[0.5mm]
     \renewcommand{\ID}{1}\input{zadaci/Z1t.tex}\\[10mm]
-    \noindent\textbf{Питања.} \\[.5mm]
+    \noindent\textbf{Питања} \\[.5mm]
     \renewcommand{\ID}{1}\input{pitanja/P1t.tex}\\[10mm]
     \renewcommand{\ID}{2}\input{pitanja/P2t.tex}\\[10mm]
 
@@ -135,7 +137,7 @@
     \noindent
     \textbf{Задатак}. \\[0.5mm]
     \renewcommand{\ID}{2}\input{zadaci/Z2t.tex}\\[10mm]
-    \noindent\textbf{Питања.} \\[1mm]
+    \noindent\textbf{Питања} \\[1mm]
     \renewcommand{\ID}{3}\input{pitanja/P3t.tex}\\[10mm]
     \renewcommand{\ID}{4}\input{pitanja/P4t.tex}\\[10mm]
 
@@ -160,18 +162,18 @@
     \textbf{Задатак}. \\[0.5mm]
     \renewcommand{\ID}{3}\input{zadaci/Z3t.tex}\\[10mm]
 
-    \noindent\textbf{Питања.} \\[0.5mm]
+    \noindent\textbf{Питања} \\[0.5mm]
     \renewcommand{\ID}{5}\input{pitanja/P5t.tex}\\[10mm]
     \renewcommand{\ID}{6}\input{pitanja/P6t.tex}\\[10mm]
 }
 { %Kolokvijumska varijanta
-    \noindent\textbf{Питања.} \\[.5mm]
+    \noindent\textbf{Питања} \\[.5mm]
     \renewcommand{\ID}{1}\input{pitanja/P1t.tex}\\[10mm]
     \renewcommand{\ID}{2}\input{pitanja/P2t.tex}\\[10mm]
     \renewcommand{\ID}{3}\input{pitanja/P3t.tex}\\[10mm]
     \renewcommand{\ID}{4}\input{pitanja/P4t.tex}\\[10mm]    
 
-    \textbf{Задатак}. \\[0.5mm]
+    \textbf{Задаци}. \\[0.5mm]
     \renewcommand{\ID}{1}\input{zadaci/Z1t.tex}\\[10mm]
     \renewcommand{\ID}{2}\input{zadaci/Z2t.tex}\\[10mm]
 }

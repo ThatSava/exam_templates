@@ -2,26 +2,36 @@
 
 from examGenerator import *
 import os 
-import glob
+import shutil
 
 def main(rok, godina, datum, k = False, i = False, opcije = True):
-    if rok in validMonths and validYear(godina):
-        if not bool(k)^bool(i):
+    #Proveri da li je dobar mesec i godina
+    if rok not in validMonths or not validYear(godina):
+        raise ValueError("Pogresan format roka ili godine!")
+
+    #Proveri tip obaveze
+    if not bool(k)^bool(i):
             raise ValueError("Tip mora biti postavljen ili kao kolokvijum ili kao ispit")
-        os.rename(glob.glob('si1oe_*.tex')[0], f'si1oe_{rok}-{godina}.tex') # Rename si1oe rok
+    
+    exam_name = f"si1oe_{rok}-{godina}"
+
+    try:
+        shutil.copytree('template', exam_name)
+        print('Uspesno kreiran direktorijum za obavezu')
         
-        with open("generics.tex", 'w', encoding='utf-8') as generics:
+        with open(os.path.join(exam_name, "generics.tex"), 'w', encoding='utf-8') as generics:
+            #Definisi boolean-e
             generics.write(r"\newboolean{opcijeZaPolaganje}" + "\n")
+            generics.write(r"\newboolean{ispit}" + "\n" )
+
             generics.write(r"\newcommand{\datumIspita}{" + datum + " г}" + "\n")
             
             # U ispitnim rokovima posle februara, ne treba nuditi opcije za polaganje ispita
             # odnosno, polaže se samo integralni ispit. 
             if validMonths.index('FEB') < validMonths.index(rok):
-                generics.write(r"\setboolean{opcijeZaPolaganje}{true}" + "\n")    
-            else:
                 generics.write(r"\setboolean{opcijeZaPolaganje}{false}" + "\n")
-
-            generics.write(r"\newboolean{ispit}" + "\n" )
+            else:
+                generics.write(r"\setboolean{opcijeZaPolaganje}{true}" + "\n")
 
             if i:
                 generics.write(r"\setboolean{ispit}{true}" + "\n")
@@ -36,21 +46,9 @@ def main(rok, godina, datum, k = False, i = False, opcije = True):
                     generics.write(r"\newcommand{\naslovFormulara}{ДРУГИ КОЛОКВИЈУМ ИЗ ОСНОВА ЕЛЕКТРОНИКЕ}" + "\n")    
                 elif k == "3":
                     generics.write(r"\newcommand{\naslovFormulara}{ТРЕЋИ КОЛОКВИЈУМ ИЗ ОСНОВА ЕЛЕКТРОНИКЕ}" + "\n")    
-        with open('.vscode/settings.json', 'w') as settings:
-            settings.write(f'''{{
-    "name": "pdflatex",
-    "command": "pdflatex",
-    "args": [
-        "--shell-escape", // if you want to have the shell-escape flag
-        "-synctex=1",
-        "-interaction=nonstopmode",
-        "-file-line-error",
-        "--aux-directory=.aux",
-        "si1oe_{rok}-{godina}.tex"
-    ]
-}}''')
-    else:
-        raise ValueError("Pogresan format roka ili godine!")
+            print('Uspesno je napravljena datoteka sa konstantama')
+    except Exception as e:
+         print(f"Doslo je do greske: {e}")
 
 if __name__ == '__main__':
     args = p.parse_args()
